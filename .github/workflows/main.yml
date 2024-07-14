@@ -13,34 +13,37 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: SSH into EC2 and Prepare Target Directory
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          sudo mkdir -p /var/www/html/
-          sudo chown -R ${{ secrets.EC2_USERNAME }} /var/www/html/
-          sudo chmod -R 755 /var/www/html/
+    - name: Checking Whether Working
+      run: echo "This is a echo command running using Github Action on Runner Machine."
 
-    - name: Copy code to EC2
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        source: ./
-        target: /var/www/html/
+    # - name: SSH into EC2 and Prepare Target Directory
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     script: |
+    #       sudo mkdir -p /var/www/html/
+    #       sudo chown -R ${{ secrets.EC2_USERNAME }} /var/www/html/
+    #       sudo chmod -R 755 /var/www/html/
 
-    - name: Restart Nginx
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
-          sudo systemctl restart nginx
+    # - name: Copy code to EC2
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     source: ./
+    #     target: /var/www/html/
+
+    # - name: Restart Nginx
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ${{ secrets.EC2_USERNAME }}
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     port: 22
+    #     script: |
+    #       sudo systemctl restart nginx
